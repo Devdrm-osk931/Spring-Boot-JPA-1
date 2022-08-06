@@ -36,6 +36,4 @@ public class MemberRepositoryTest {
         System.out.println("member = " + member);
         System.out.println("findMember == member: " + (findMember == member));
      }
-
-
 }
