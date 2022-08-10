@@ -38,6 +38,12 @@ public class OrderService {
         delivery.setAddress(member.getAddress());
 
         // 주문 상품 생성
+        /*
+         * 주문을 생성하는 방법을 본 프로젝트에선 orderItem.createOrder 와 같은 생성메서드를 사용했지만 혹자는
+         * OrderItem orderItem = new OrderItem(); 을 이용하여 객체를 생성하고 필요한 값들을 setting 해줄수도 있을것이다.
+         * 하지만 이런식으로 다른 방법이 혼용되어 사용되다보면 나중에 유지보수가 힘들기 때문에 한가지 방법을 강제하는것이 좋다.
+         * 그걸 위해 OrderItem의 생성자 메서드를 private으로 하거나 NoArgsConstructor 애노테이션을 사용하여 접근을 통제한다.
+         */
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
 
         // 주문 생성
@@ -51,7 +57,20 @@ public class OrderService {
 
     }
 
-    //취소
+    /**
+     * 주문 취소
+     */
+    @Transactional
+    public void cancelOrder(Long orderId) {
+        // 주문 엔티티 조회
+        Order order = orderRepository.findOne(orderId);
+        // 주문 취소
+        order.cancel();
+
+    }
 
     //검색
+//    public List<Order> findOrders(OrderSearch orderSearch) {
+//        return orderRepository.findAll(orderSearch);
+//    }
 }
